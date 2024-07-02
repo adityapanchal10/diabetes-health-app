@@ -121,11 +121,10 @@ def main():
     X = df.drop(target, axis=1)
     y = df[target]
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=444)
-    clust = get_clustering(X_train, y_train)
-    
 
     st.sidebar.header("☢ Model Selection")
     model_option = st.sidebar.radio("Select Model", ("Kernel Ridge Regression", "Logistic Regression"))
+    clust = get_clustering(X_train[:50], y_train[:50])
 
     if model_option == "Logistic Regression":
         model, training_time = train_logistic_regression(X_train, y_train)
