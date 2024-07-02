@@ -58,19 +58,19 @@ def display_results(model, X_test, y_test, training_time):
     st.pyplot(fig)
     plt.clf()  # Clear the current figure after displaying it
 
-@st.cache_resource
-def explain_model(model, X_train, model_type):
+@st.cache_data
+def explain_model(_model, X_train, model_type):
     # Initialize the SHAP explainer based on the model type
     if model_type == "Logistic Regression":
         def model_predict_log_odds(x): 
-            p = model.predict_log_proba(x)
+            p = _model.predict_log_proba(x)
             return p[:, 1] - p[:, 0]
         explainer = shap.Explainer(model_predict_log_odds, shap.maskers.Independent(X_train, max_samples=50))
         # Calculate SHAP values
         shap_values = explainer(X_train[:50])
     elif model_type == "Kernel Ridge Regression":
         # KernelExplainer works better for non-linear models
-        explainer = shap.KernelExplainer(model.predict, shap.kmeans(X_train, 21))
+        explainer = shap.KernelExplainer(_model.predict, shap.kmeans(X_train, 21))
         # Calculate SHAP values
         shap_values = explainer(X_train[:30])
     
