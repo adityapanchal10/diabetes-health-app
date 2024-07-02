@@ -84,7 +84,7 @@ def display_shap_summary_plot(explainer, shap_values, clust):
     plt.clf()  # Clear the current figure after displaying it
 
 def get_clustering(X, y):
-    if st.session_state['clustering']:
+    if 'clustering' in st.session_state:
         return st.session_state['clustering']
     clustering = shap.utils.hclust(X_train, y_train, linkage="single")
     st.session_state['clustering'] = clustering
