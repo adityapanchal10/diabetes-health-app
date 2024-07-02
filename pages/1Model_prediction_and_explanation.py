@@ -124,7 +124,8 @@ def main():
         st.session_state['model'] = model  # Store the model in session state
         st.session_state['model_type'] = "Logistic Regression"
         st.session_state['X_train'] = X_train
-        explainer, shap_values = explain_model(model, X_train, "Logistic Regression")
+        r_indices = np.random.choice(len(X_train), 500, replace=False)
+        explainer, shap_values = explain_model(model, X_train[r_indices], "Logistic Regression")
         
         st.write(f"︻デ═一 {model_option}")
         display_results(model, X_test, y_test, training_time)
