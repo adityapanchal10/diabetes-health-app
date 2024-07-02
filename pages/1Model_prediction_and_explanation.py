@@ -13,14 +13,14 @@ import shap
 st.set_option('deprecation.showPyplotGlobalUse', False)
 
 # Load dataset
-#@st.cache_data
+@st.cache_data
 def load_data():
     df = pd.read_csv("./diabetes_binary_health_indicators_BRFSS2015.csv")
     target = 'Diabetes_binary'
     return df, target
 
 # Train Logistic Regression model
-#@st.cache_data
+@st.cache_resource
 def train_logistic_regression(X_train, y_train):
     model = LogisticRegression(max_iter=200)
     start_time = time.time()
@@ -29,7 +29,7 @@ def train_logistic_regression(X_train, y_train):
     return model, training_time
 
 # Train Kernel Ridge Regression model
-#@st.cache_data
+@st.cache_resource
 def train_kernel_ridge_regression(X_train, y_train):
     model = KernelRidge(kernel='rbf')
     start_time = time.time()
@@ -57,16 +57,17 @@ def display_results(model, X_test, y_test, training_time):
     plt.tight_layout()
     st.pyplot(fig)
     plt.clf()  # Clear the current figure after displaying it
-    
+
+@st.cache_data
 def explain_model(model, X_train, model_type):
     # Initialize the SHAP explainer based on the model type
     if model_type == "Logistic Regression":
         def model_predict_log_odds(x): 
             p = model.predict_log_proba(x)
             return p[:, 1] - p[:, 0]
-        explainer = shap.Explainer(model_predict_log_odds, shap.maskers.Independent(X_train, max_samples=100))
+        explainer = shap.Explainer(model_predict_log_odds, shap.maskers.Independent(X_train, max_samples=50))
         # Calculate SHAP values
-        shap_values = explainer(X_train[:100])
+        shap_values = explainer(X_train[:50])
     elif model_type == "Kernel Ridge Regression":
         # KernelExplainer works better for non-linear models
         explainer = shap.KernelExplainer(model.predict, shap.kmeans(X_train, 21))
