@@ -201,7 +201,7 @@ def main():
         st.write("")
         st.write("##### 1. Summary Plot")
         st.write("We start by plotting the global importance of each feature in the model")
-        display_shap_summary_plot(explainer, shap_values, clust, X_train[:50], y_train[:50])
+        display_shap_summary_plot(explainer, shap_values, X_train[:50], y_train[:50])
         st.write("This bar plot shows that BMI, Age, and GenHealth are the top three factors driving the model’s prediction of having diabetes or not.")
         st.write("This is somewhat similar to that of Logistic Regression. There is also a feature redundancy clustering as before.")
         
