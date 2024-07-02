@@ -22,7 +22,7 @@ def load_data():
 # Train Logistic Regression model
 #@st.cache_data
 def train_logistic_regression(X_train, y_train):
-    model = LogisticRegression(max_iter=500)
+    model = LogisticRegression(max_iter=200)
     start_time = time.time()
     model.fit(X_train, y_train)
     training_time = time.time() - start_time
