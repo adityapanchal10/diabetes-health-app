@@ -78,13 +78,13 @@ def explain_model(_model, X_train, model_type):
     return explainer, shap_values
 
 @st.cache_data
-def display_shap_summary_plot(explainer, shap_values, clust):
+def display_shap_summary_plot(explainer, shap_values, X, y):
     if 'clustering' in st.session_state:
         clust = st.session_state['clustering']
     else:
         clust = shap.utils.hclust(X, y, linkage="single")
         st.session_state['clustering'] = clustering
-    shap.plots.bar(shap_values, clustering=clust, clustering_cutoff=2, max_display=len(X_train.columns))
+    shap.plots.bar(shap_values, clustering=clust, clustering_cutoff=2, max_display=len(X.columns))
     st.pyplot()
     plt.clf()  # Clear the current figure after displaying it
 
