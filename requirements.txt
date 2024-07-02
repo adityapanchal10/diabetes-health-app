@@ -4,3 +4,5 @@ seaborn
 pandas
 numpy
 shap
+xgboost
+plotly
