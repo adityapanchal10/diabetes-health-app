@@ -3,7 +3,7 @@ channels:
   - conda-forge
 dependencies:
   - _py-xgboost-mutex=2.0=cpu_0
-  - matplotlib-base=3.8.4=py39hf19769e_0
+  - matplotlib-base
   - matplotlib-inline
   - numpy
   - pandas
