@@ -58,7 +58,7 @@ def display_results(model, X_test, y_test, training_time):
     st.pyplot(fig)
     plt.clf()  # Clear the current figure after displaying it
 
-@st.cache_data
+#@st.cache_data
 def explain_model(_model, X_train, model_type):
     # Initialize the SHAP explainer based on the model type
     if model_type == "Logistic Regression":
