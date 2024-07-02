@@ -67,12 +67,12 @@ def explain_model(_model, X_train, model_type):
             return p[:, 1] - p[:, 0]
         explainer = shap.KernelExplainer(model_predict_log_odds, shap.kmeans(X_train, 21))
         # Calculate SHAP values
-        shap_values = explainer(X_train[:20])
+        shap_values = explainer(X_train[:25])
     elif model_type == "Kernel Ridge Regression":
         # KernelExplainer works better for non-linear models
         explainer = shap.KernelExplainer(_model.predict, shap.kmeans(X_train, 21))
         # Calculate SHAP values
-        shap_values = explainer(X_train[:20])
+        shap_values = explainer(X_train[:25])
     
     # Return the explainer and SHAP values for further use
     return explainer, shap_values
