@@ -65,14 +65,14 @@ def explain_model(_model, X_train, model_type):
         def model_predict_log_odds(x): 
             p = _model.predict_log_proba(x)
             return p[:, 1] - p[:, 0]
-        explainer = shap.KernelExplainer(model_predict_log_odds, shap.kmeans(X_train, 30))
+        explainer = shap.KernelExplainer(model_predict_log_odds, shap.kmeans(X_train, 21))
         # Calculate SHAP values
-        shap_values = explainer(X_train[:50])
+        shap_values = explainer(X_train[:20])
     elif model_type == "Kernel Ridge Regression":
         # KernelExplainer works better for non-linear models
         explainer = shap.KernelExplainer(_model.predict, shap.kmeans(X_train, 21))
         # Calculate SHAP values
-        shap_values = explainer(X_train[:30])
+        shap_values = explainer(X_train[:20])
     
     # Return the explainer and SHAP values for further use
     return explainer, shap_values
@@ -124,8 +124,8 @@ def main():
         st.session_state['model'] = model  # Store the model in session state
         st.session_state['model_type'] = "Logistic Regression"
         st.session_state['X_train'] = X_train
-        r_indices = np.random.choice(len(X_train), 500, replace=False)
-        explainer, shap_values = explain_model(model, X_train.iloc[r_indices], "Logistic Regression")
+        # r_indices = np.random.choice(len(X_train), 500, replace=False)
+        explainer, shap_values = explain_model(model, X_train, "Logistic Regression")
         
         st.write(f"︻デ═一 {model_option}")
         display_results(model, X_test, y_test, training_time)
@@ -171,10 +171,10 @@ def main():
         st.write("##### 3. How is a prediction made?")
         st.write("The below chart shows how the model makes a prediction for a sample (the sample can be selected in the sidebar).")
         st.sidebar.header("☢ Sample Selection")
-        indices = np.random.choice(len(X_train[:100]), 20, replace=False)
+        indices = np.random.choice(len(X_train[:20]), 20, replace=False)
         selected_index = st.sidebar.selectbox('Select a sample index:', indices)
         if st.sidebar.button('Get random sample'):
-            random_index = np.random.choice(len(X_train[:100]))
+            random_index = np.random.choice(len(X_train[:20]))
             st.sidebar.write(f"Randomly selected sample index: {random_index}")
             selected_index = random_index  # This line won't update the selectbox, but one can use selected_index for further processing.
         sample_df = df.iloc[selected_index]
@@ -221,10 +221,10 @@ def main():
         st.write("##### 3. How is a prediction made?")
         st.write("The below chart shows how the model makes a prediction for a sample (the sample can be selected in the sidebar).")
         st.sidebar.header("☢ Sample Selection")
-        indices = np.random.choice(len(X_train[:30]), 20, replace=False)
+        indices = np.random.choice(len(X_train[:20]), 20, replace=False)
         selected_index = st.sidebar.selectbox('Select a sample index:', indices)
         if st.sidebar.button('Get random sample'):
-            random_index = np.random.choice(len(X_train[:30]))
+            random_index = np.random.choice(len(X_train[:20]))
             st.sidebar.write(f"Randomly selected sample index: {random_index}")
             selected_index = random_index  # This line won't update the selectbox, but one can use selected_index for further processing.
         sample_df = df.iloc[selected_index]
