@@ -117,13 +117,10 @@ def main():
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=444)
 
     st.sidebar.header("☢ Model Selection")
-    model_option = st.sidebar.radio("Select Model", ("Logistic Regression", "Kernel Ridge Regression"))
+    model_option = st.sidebar.radio("Select Model", ("Kernel Ridge Regression", "Logistic Regression"))
 
     if model_option == "Logistic Regression":
         model, training_time = train_logistic_regression(X_train, y_train)
-        st.session_state['model'] = model  # Store the model in session state
-        st.session_state['model_type'] = "Logistic Regression"
-        st.session_state['X_train'] = X_train
         # r_indices = np.random.choice(len(X_train), 500, replace=False)
         explainer, shap_values = explain_model(model, X_train, "Logistic Regression")
         
@@ -187,10 +184,7 @@ def main():
         st.write("In our case, it means that SHAP values of all the input features will always sum up to the difference between baseline (expected) model output and the current model output for the prediction being explained.")
 
     else:
-        model, training_time = train_kernel_ridge_regression(X_train[:1000], y_train[:1000]) # considering only 3000 samples due to memory constraints
-        st.session_state['model'] = model  # Store the model in session state
-        st.session_state['model_type'] = "Kernel Ridge Regression"
-        st.session_state['X_train'] = X_train[:3000]
+        model, training_time = train_kernel_ridge_regression(X_train[:1000], y_train[:1000]) # considering only 1000 samples due to memory constraints
         explainer, shap_values = explain_model(model, X_train, "Kernel Ridge Regression")
         st.write(f"︻デ═一 {model_option}")
         display_results(model, X_test, y_test, training_time)
