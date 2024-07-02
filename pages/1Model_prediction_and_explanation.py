@@ -83,6 +83,7 @@ def display_shap_summary_plot(explainer, shap_values, clust):
     st.pyplot()
     plt.clf()  # Clear the current figure after displaying it
 
+@st.cache_data
 def get_clustering(X, y):
     if 'clustering' in st.session_state:
         return st.session_state['clustering']
@@ -123,8 +124,7 @@ def main():
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=444)
 
     st.sidebar.header("☢ Model Selection")
-    model_option = st.sidebar.radio("Select Model", ("Kernel Ridge Regression", "Logistic Regression"))
-    clust = get_clustering(X_train[:50], y_train[:50])
+    model_option = st.sidebar.radio("Select Model", ("Logistic Regression", "Kernel Ridge Regression"))
 
     if model_option == "Logistic Regression":
         model, training_time = train_logistic_regression(X_train, y_train)
@@ -156,6 +156,7 @@ def main():
         st.write("")
         st.write("##### 1. Summary Plot")
         st.write("We start by plotting the global importance of each feature in the model.")
+        clust = get_clustering(X_train[:50], y_train[:50])
         display_shap_summary_plot(explainer, shap_values, clust)
         st.write("This bar plot shows that GenHealth, HighBP, BMI, and age are the top factors driving the model’s prediction of having diabetes or not.")
         st.write("This is interesting and at first glance looks reasonable. The bar plot also includes a feature redundancy clustering which we will use later.")
@@ -205,6 +206,7 @@ def main():
         st.write("")
         st.write("##### 1. Summary Plot")
         st.write("We start by plotting the global importance of each feature in the model")
+        clust = get_clustering(X_train[:50], y_train[:50])
         display_shap_summary_plot(explainer, shap_values, clust)
         st.write("This bar plot shows that BMI, Age, and GenHealth are the top three factors driving the model’s prediction of having diabetes or not.")
         st.write("This is somewhat similar to that of Logistic Regression. There is also a feature redundancy clustering as before.")
