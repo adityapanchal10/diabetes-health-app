@@ -79,17 +79,14 @@ def explain_model(_model, X_train, model_type):
 
 @st.cache_data
 def display_shap_summary_plot(explainer, shap_values, clust):
+    if 'clustering' in st.session_state:
+        clust = st.session_state['clustering']
+    else:
+        clust = shap.utils.hclust(X, y, linkage="single")
+        st.session_state['clustering'] = clustering
     shap.plots.bar(shap_values, clustering=clust, clustering_cutoff=2, max_display=len(X_train.columns))
     st.pyplot()
     plt.clf()  # Clear the current figure after displaying it
-
-@st.cache_data
-def get_clustering(X, y):
-    if 'clustering' in st.session_state:
-        return st.session_state['clustering']
-    clustering = shap.utils.hclust(X, y, linkage="single")
-    st.session_state['clustering'] = clustering
-    return clustering
 
 def display_shap_scatter_plot(shap_values):
     plt.figure(figsize=(15, 6))
@@ -156,8 +153,7 @@ def main():
         st.write("")
         st.write("##### 1. Summary Plot")
         st.write("We start by plotting the global importance of each feature in the model.")
-        clust = get_clustering(X_train[:50], y_train[:50])
-        display_shap_summary_plot(explainer, shap_values, clust)
+        display_shap_summary_plot(explainer, shap_values, X_train[:50], y_train[:50])
         st.write("This bar plot shows that GenHealth, HighBP, BMI, and age are the top factors driving the model’s prediction of having diabetes or not.")
         st.write("This is interesting and at first glance looks reasonable. The bar plot also includes a feature redundancy clustering which we will use later.")
         
@@ -206,8 +202,7 @@ def main():
         st.write("")
         st.write("##### 1. Summary Plot")
         st.write("We start by plotting the global importance of each feature in the model")
-        clust = get_clustering(X_train[:50], y_train[:50])
-        display_shap_summary_plot(explainer, shap_values, clust)
+        display_shap_summary_plot(explainer, shap_values, clust, X_train[:50], y_train[:50])
         st.write("This bar plot shows that BMI, Age, and GenHealth are the top three factors driving the model’s prediction of having diabetes or not.")
         st.write("This is somewhat similar to that of Logistic Regression. There is also a feature redundancy clustering as before.")
         
