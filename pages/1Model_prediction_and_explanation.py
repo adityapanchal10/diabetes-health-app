@@ -106,7 +106,7 @@ def main():
     st.write("Select a model from the sidebar for training.")
     st.write("It will then be used for prediction, evaluation, and explanation.")
     st.write("- The [*logistic regression*](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html) model is trained on the entire dataset till a maximum of 200 iterations.")
-    st.write("- The [*kernel ridge regression*](https://scikit-learn.org/stable/modules/generated/sklearn.kernel_ridge.KernelRidge.html) model is trained using a Radial Basis Kernel and only on the first 3000 samples due to memory constraints.")
+    st.write("- The [*kernel ridge regression*](https://scikit-learn.org/stable/modules/generated/sklearn.kernel_ridge.KernelRidge.html) model is trained using a Radial Basis Kernel and only on the first 1000 samples due to memory constraints.")
     st.write("SHAP calculations for explanations could only use 100 values from the train set due to computational constraints...")
     st.write("\n\n\n")
     st.write("### ➾ Model Training and Evaluation")
@@ -151,7 +151,7 @@ def main():
         st.write("")
         st.write("##### 1. Summary Plot")
         st.write("We start by plotting the global importance of each feature in the model.")
-        display_shap_summary_plot(explainer, shap_values, X_train[:1000], y_train[:1000])
+        display_shap_summary_plot(explainer, shap_values, X_train[:100], y_train[:100])
         st.write("This bar plot shows that GenHealth, HighBP, BMI, and age are the top factors driving the model’s prediction of having diabetes or not.")
         st.write("This is interesting and at first glance looks reasonable. The bar plot also includes a feature redundancy clustering which we will use later.")
         
@@ -186,7 +186,7 @@ def main():
         st.write("In our case, it means that SHAP values of all the input features will always sum up to the difference between baseline (expected) model output and the current model output for the prediction being explained.")
 
     else:
-        model, training_time = train_kernel_ridge_regression(X_train[:3000], y_train[:3000]) # considering only 3000 samples due to memory constraints
+        model, training_time = train_kernel_ridge_regression(X_train[:1000], y_train[:1000]) # considering only 3000 samples due to memory constraints
         st.session_state['model'] = model  # Store the model in session state
         st.session_state['model_type'] = "Kernel Ridge Regression"
         st.session_state['X_train'] = X_train[:3000]
@@ -203,7 +203,7 @@ def main():
         st.write("")
         st.write("##### 1. Summary Plot")
         st.write("We start by plotting the global importance of each feature in the model")
-        display_shap_summary_plot(explainer, shap_values, X_train[:1000], y_train[:1000])
+        display_shap_summary_plot(explainer, shap_values, X_train[:100], y_train[:100])
         st.write("This bar plot shows that BMI, Age, and GenHealth are the top three factors driving the model’s prediction of having diabetes or not.")
         st.write("This is somewhat similar to that of Logistic Regression. There is also a feature redundancy clustering as before.")
         
