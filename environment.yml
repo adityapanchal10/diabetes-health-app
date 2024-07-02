@@ -4,14 +4,14 @@ channels:
 dependencies:
   - _py-xgboost-mutex=2.0=cpu_0
   - matplotlib-base=3.8.4=py39hf19769e_0
-  - matplotlib-inline=0.1.7=pyhd8ed1ab_0
-  - numpy=1.26.4=py39hddb5d58_0
-  - pandas=2.2.2=py39h32e6231_0
+  - matplotlib-inline
+  - numpy
+  - pandas
   - py-xgboost=2.0.3=cpu_pyheee7c3a_4
-  - scikit-image=0.19.3=py39h2ba5b7c_2
-  - scikit-learn=1.4.2=py39h7c199eb_0
-  - scipy=1.13.0=py39h1a10956_1
+  - scikit-image
+  - scikit-learn
+  - scipy
   - seaborn=0.13.2=hd8ed1ab_0
   - seaborn-base=0.13.2=pyhd8ed1ab_0
-  - shap=0.45.1=cpu_py39h68afd64_0
+  - shap
   - streamlit=1.35.0
