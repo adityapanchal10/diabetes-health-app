@@ -14,3 +14,4 @@ dependencies:
   - seaborn=0.13.2=hd8ed1ab_0
   - seaborn-base=0.13.2=pyhd8ed1ab_0
   - shap=0.45.1=cpu_py39h68afd64_0
+  - streamlit=1.35.0
