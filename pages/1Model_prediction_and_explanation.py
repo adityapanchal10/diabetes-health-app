@@ -77,7 +77,6 @@ def explain_model(_model, X_train, model_type):
     # Return the explainer and SHAP values for further use
     return explainer, shap_values
 
-@st.cache_data
 def display_shap_summary_plot(explainer, shap_values, X, y):
     if 'clustering' in st.session_state:
         clust = st.session_state['clustering']
